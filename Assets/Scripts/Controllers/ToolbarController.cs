@@ -15,9 +15,6 @@ public class ToolbarController : MonoBehaviour
 
     static bool isActive;
 
-
-
-
     void Awake()
     {
 
@@ -45,7 +42,7 @@ public class ToolbarController : MonoBehaviour
     {
         if (!isEmpty)
         {
-            if (!PlayerMenuController.GetInstance().GetActive())
+            if (!PlayerMenuController.GetInstance().IsMenuActive())
                 MoveSelector();
         }
     }

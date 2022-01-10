@@ -8,7 +8,14 @@ public class PlayerMenuController : MonoBehaviour
     public static PlayerMenuController instance;
     bool isMenuActive;
 
-    // Start is called before the first frame update
+    [SerializeField]
+    public GameObject PlayerMenuTab;
+
+    void Awake()
+    {
+        PlayerMenuTab.SetActive(false);
+    }
+
     void Start()
     {
         Instantiate();
@@ -26,12 +33,13 @@ public class PlayerMenuController : MonoBehaviour
         isMenuActive = false;
     }
 
+
     public static PlayerMenuController GetInstance()
     {
         return instance;
     }
 
-    public bool GetActive()
+    public bool IsMenuActive()
     {
         return isMenuActive;
     }
@@ -39,34 +47,27 @@ public class PlayerMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ToggleMenu("sc_player_land");
+        ToggleInventory();
     }
 
-    public void ToggleMenu(string sceneName)
+    public void ToggleInventory()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (isMenuActive)
+            if (PlayerMenuTab.activeSelf)
             {
+                PlayerMenuTab.SetActive(false);
                 isMenuActive = false;
-                SceneLoader.LoadScene(sceneName);
-                TimeController.GetInstance().ToggleTimeFlow();
-                ToolbarController.SetActive(true);
-                
             }
             else
             {
+                PlayerMenuTab.SetActive(true);
                 isMenuActive = true;
-                SceneLoader.LoadScene("sc_player_menu");
-                TimeController.GetInstance().ToggleTimeFlow();
-                ToolbarController.SetActive(false);
             }
+            
+            TimeController.GetInstance().ToggleTimeFlow();
+
         }
     }
 }
 
-
-// creditcardservice@unionbankph.com
-// 2 Valid 
-// 3 Specimen Signatures
-// 02-8841-8600

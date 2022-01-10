@@ -10,18 +10,26 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     Sprite empty;
 
     public Item item;
+    public int itemCount;
 
     static Item itemDragged;
     Vector3 initialPosition;
 
     static bool isItemDropped;
 
-    private void OnValidate() {
+    private void OnValidate()
+    {
+
         RefreshUI();
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         RefreshUI();
+        if(item != null)
+            itemCount = 1;
+        else   
+            itemCount = 0;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -84,7 +92,49 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (item == null)
             gameObject.GetComponent<Image>().sprite = empty;
         if (item != null)
+        {
             gameObject.GetComponent<Image>().sprite = item.ItemIcon;
+        }
+
+    }
+
+    public bool DoesItemExist(Item i)
+    {
+        if (item == i)
+            return true;
+        else
+            return false;
+
+
+    }
+
+    public bool IsSlotFull()
+    {
+        if (item != null)
+        {
+            if (itemCount < item.MaxCount)
+                return false;
+            else
+                return true;
+        }
+        else
+            return false;
+
+    }
+
+
+    public bool AddItem(Item i)
+    {
+        if (!IsSlotFull())
+        {
+            item = i;
+            itemCount += 1;
+            RefreshUI();
+            return true;
+        }
+        else
+            return false;
+
     }
 
 

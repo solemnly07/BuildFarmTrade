@@ -111,4 +111,17 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D other) {
+        
+        ItemObject item = other.GetComponent<ItemObject>();
+        
+        if(item != null)
+        {
+            if(InventoryController.GetInstance().AddItem(item.GetItem()))
+                Destroy(item.gameObject);
+            
+        }
+
+    }
+
 }
