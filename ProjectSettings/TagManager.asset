@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Global
+  - Object
+  - Building
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Overlay
+  - Effects
+  - ForeGround
+  - Tileset
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Overlay
+    uniqueID: 1874962053
+    locked: 0
+  - name: Ground
+    uniqueID: 659080287
+    locked: 0
+  - name: Shadows
+    uniqueID: 1224430353
+    locked: 0
+  - name: ForeGround
+    uniqueID: 2238603073
+    locked: 0
+  - name: Player
+    uniqueID: 772988909
+    locked: 0
+  - name: Effects
+    uniqueID: 2187657539
+    locked: 0
