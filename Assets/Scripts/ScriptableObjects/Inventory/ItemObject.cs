@@ -7,7 +7,8 @@ public class ItemObject : MonoBehaviour
 {
     [SerializeField]
     Item item;
-
+    [SerializeField]
+    public int itemCount;
 
     private void OnValidate()
     {
@@ -16,7 +17,6 @@ public class ItemObject : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().sprite = item.GameSprite;
             gameObject.name = item.ItemName;
         }
-
     }
 
     public Item GetItem()
@@ -24,5 +24,14 @@ public class ItemObject : MonoBehaviour
         return item;
     }
 
+    public int GetItemCount()
+    {
+        return itemCount;
+    }
+
+    public void SetItemCount(int num)
+    {
+        itemCount = num;
+    }
 
 }

@@ -57,7 +57,7 @@ public class TimeController : MonoBehaviour
     {
         if (instance != null)
         {
-            Debug.Log("Destroy Time Controller");
+            // Debug.Log("Destroy Time Controller");
             Destroy(this.gameObject);
             return;
         }

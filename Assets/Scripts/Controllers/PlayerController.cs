@@ -107,21 +107,16 @@ public class PlayerController : MonoBehaviour
         {
             TimeController.GetInstance().ToggleTimeFlow();
         }
-
-
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        
+    private void OnTriggerEnter2D(Collider2D other)
+    {
         ItemObject item = other.GetComponent<ItemObject>();
-        
-        if(item != null)
+        if (item != null)
         {
-            if(InventoryController.GetInstance().AddItem(item.GetItem()))
+            if (InventoryController.GetInstance().PickUpItem(item))
                 Destroy(item.gameObject);
-            
         }
-
     }
 
 }

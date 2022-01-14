@@ -22,6 +22,8 @@ public class InventoryController : MonoBehaviour
     GameObject selector;
     [SerializeField]
     static InventorySlot currentToolSlot;
+    [SerializeField]
+    InventorySlot pickedUpItem;
 
     private void OnValidate()
     {
@@ -40,7 +42,7 @@ public class InventoryController : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(inventorySlots[0].item.ItemName);
+        // Debug.Log(inventorySlots[0].item.ItemName);
     }
 
     void Instantiate()
@@ -132,109 +134,42 @@ public class InventoryController : MonoBehaviour
     }
 
 
-    public bool AddItem(Item item)
+    public bool PickUpItem(ItemObject item)
     {
-        bool itemAdded = AvailableSlot(toolSlots, item) ? true : AvailableSlot(inventorySlots, item);
-        return itemAdded;
-    }
-
-    private bool AvailableSlot(InventorySlot[] slots, Item item)
-    {
-        InventorySlot availableSlot = null;
-        bool itemAdded = false;
-
-        for (int i = 0; i < slots.Length; i++)
+        if (pickedUpItem != null)
         {
-            availableSlot = slots[i];
-            if (availableSlot != null)
+            pickedUpItem.item = item.GetItem();
+            pickedUpItem.itemCount = item.itemCount;
+
+
+            InventorySlot placeholderSlot = null;
+            List<InventorySlot> availableSlots = new List<InventorySlot>();
+            // Check if the Item is in Inventory First;
+
+            int j = 0;
+            while (j < toolSlots.Length)
             {
-                if (availableSlot.DoesItemExist(item) && !availableSlot.IsSlotFull())
-                {
-                    itemAdded = availableSlot.AddItem(item);
-                    break;
-                }
-                else if (availableSlot.item == null)
-                {
-                    itemAdded = availableSlot.AddItem(item);
-                    break;
-                }
+                placeholderSlot = toolSlots[j].PickUpCheck(pickedUpItem);
+                if(placeholderSlot != null)
+                availableSlots.Add(placeholderSlot);
+                j++;
             }
+
+            int i = 0;
+            while (i < inventorySlots.Length)
+            {
+                placeholderSlot = inventorySlots[i].PickUpCheck(pickedUpItem);
+                if(placeholderSlot != null)
+                    availableSlots.Add(placeholderSlot);
+                i++;
+            }
+
+            availableSlots[0].PickUpItem(pickedUpItem);
+            // Debug.Log("ADDED IN THIS SLOT: " + availableSlots[0].gameObject.name);
+            return true;
         }
-        return itemAdded;
+        else
+            return false;
     }
-
-    // public bool AvailableToolSlot(Item item)
-    // {
-    //     InventorySlot availableSlot = null;
-    //     bool itemAdded = false;
-
-    //     for (int i = 0; i < toolSlots.Length; i++)
-    //     {
-    //         availableSlot = toolSlots[i];
-    //         if (availableSlot != null)
-    //         {
-    //             if(availableSlot.DoesItemExist(item) && !availableSlot.IsSlotFull())
-    //             {
-    //                 itemAdded = availableSlot.AddItem(item);
-    //                 break;
-    //             }
-
-    //             if(availableSlot.item == null)
-    //             {
-    //                 itemAdded = availableSlot.AddItem(item);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return itemAdded;
-    // }
-
-    // public bool AvailableInventorySlot(Item item)
-    // {
-    //     InventorySlot availableSlot = null;
-    //     bool itemAdded = false;
-
-    //     for (int i = 0; i < toolSlots.Length; i++)
-    //     {
-    //         availableSlot = toolSlots[i];
-    //         if (availableSlot != null)
-    //         {
-    //             if(availableSlot.DoesItemExist(item) && !availableSlot.IsSlotFull())
-    //             {
-    //                 itemAdded = availableSlot.AddItem(item);
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     return itemAdded;
-    // }
-
-    // public void GetAvailableSlot(Item item)
-    // {
-    //     InventorySlot availableSlot = null;
-    //     bool itemAdded = false;
-
-    //     for (int i = 0; i < toolSlots.Length; i++)
-    //     {
-    //         availableSlot = toolSlots[i];
-    //         if (availableSlot != null)
-    //         {
-    //             if(availableSlot.DoesItemExist(item) && !availableSlot.IsSlotFull())
-    //             {
-    //                 itemAdded = availableSlot.AddItem(item);
-    //                 break;
-    //             }
-    //         }
-    //     }
-
-    //     if(!itemAdded)
-    //     {
-
-    //     }
-    // }
-
-
-
 
 }
