@@ -24,14 +24,10 @@ public class ItemObject : MonoBehaviour
         return item;
     }
 
-    public int GetItemCount()
+    public void UseItem()
     {
-        return itemCount;
-    }
-
-    public void SetItemCount(int num)
-    {
-        itemCount = num;
+        Debug.Log("TYPE: " + this.item.GetType().ToString());
+        itemCount = itemCount - 1;
     }
 
 }

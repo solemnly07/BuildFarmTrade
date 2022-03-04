@@ -20,6 +20,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     static Item itemDragged;
     static int itemDraggedCount;
     Vector3 initialPosition;
+    Transform thisParent;
+    Transform otherParent;
+
+    
+
 
     static bool isItemDropped;
 
@@ -36,7 +41,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnPointerDown(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left || eventData.button == PointerEventData.InputButton.Right)
+        {
             initialPosition = transform.position;
+            thisParent = transform.parent;
+        }
+
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -48,6 +57,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
+        thisParent.SetAsLastSibling();
         _LOnDrag(eventData);
     }
 
@@ -273,4 +283,12 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+    public void ConvertSlot(InventorySlot slot)
+    {
+        this.item = slot.item;
+        this.itemCount = slot.itemCount;
+        RefreshUI();
+    }
+
+   
 }

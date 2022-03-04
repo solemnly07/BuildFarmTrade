@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 2843293544008341807}
   - component: {fileID: 2843293544008341806}
   - component: {fileID: 429416283}
+  - component: {fileID: 3917377859971180231}
   m_Layer: 8
   m_Name: Main_Char
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2056364223
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 08fa22efb575deb4db12e5c107f980a9, type: 3}
+  m_Sprite: {fileID: -8298766812939092695, guid: 224195b8d20a34d45adc3b4cf939ee79, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,18 +120,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.00083991885, y: 0.082063586}
+  m_Offset: {x: 0, y: 0.21}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 2, y: 2}
+    oldSize: {x: 1.6, y: 3.2}
     newSize: {x: 1.28, y: 1.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.32197642, y: 0.16627705}
+  m_Size: {x: 1.2, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &429416283
 MonoBehaviour:
@@ -146,3 +147,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   lookDistance: 1
+--- !u!95 &3917377859971180231
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843293544008341804}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cf6aee58cc403d04baa406c2cf209aa6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

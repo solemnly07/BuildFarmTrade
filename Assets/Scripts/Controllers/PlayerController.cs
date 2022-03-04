@@ -24,10 +24,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         player = GetComponent<Rigidbody2D>();
+        InitAnimator();
     }
 
     void Update()
     {
+        SetDirection();
         DefineControls();
         PlayerActions();
 
@@ -57,10 +59,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void SetDirection()
+    {
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
+
+        Vector2 move = new Vector2(horizontal, vertical);
+
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            lookDirection.Set(move.x, move.y);
+            lookDirection.Normalize();
+        }
+
+        animator.SetFloat("Move X", lookDirection.x);
+        animator.SetFloat("Move Y", lookDirection.y);
+        animator.SetFloat("Speed", move.magnitude);
+    }
+
     void Move()
     {
         if (TimeController.GetInstance().IsTimeFlow())
         {
+
+
+
             Vector2 position = player.position;
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -72,6 +95,8 @@ public class PlayerController : MonoBehaviour
                 position.x = position.x + (speed * horizontal * Time.deltaTime);
                 position.y = position.y + (speed * vertical * Time.deltaTime);
             }
+
+
 
             player.MovePosition(position);
         }
@@ -115,8 +140,21 @@ public class PlayerController : MonoBehaviour
         if (item != null)
         {
             if (InventoryController.GetInstance().PickUpItem(item))
+            {
+                InventoryController.GetInstance().UpdateToolbarMenu();
+                // InventoryController.GetInstance().UpdateToolbarWorld();
                 Destroy(item.gameObject);
+            }
+
         }
+    }
+
+    Animator animator;
+
+    private void InitAnimator()
+    {
+        animator = GetComponent<Animator>();
+
     }
 
 }

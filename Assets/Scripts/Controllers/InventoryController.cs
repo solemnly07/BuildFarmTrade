@@ -17,6 +17,10 @@ public class InventoryController : MonoBehaviour
     Transform toolParent;
     [SerializeField]
     InventorySlot[] toolSlots;
+    [SerializeField]
+    Transform toolWorldParent;
+    [SerializeField]
+    InventorySlot[] toolWorldSlots;
     [Space]
     [SerializeField]
     GameObject selector;
@@ -32,12 +36,14 @@ public class InventoryController : MonoBehaviour
 
         if (toolParent != null)
             toolSlots = toolParent.GetComponentsInChildren<InventorySlot>();
+
+        if (toolWorldParent != null)
+            toolWorldSlots = toolWorldParent.GetComponentsInChildren<InventorySlot>();
     }
 
     void Awake()
     {
         Instantiate();
-        setDefaultToolSlot();
     }
 
     void Start()
@@ -67,15 +73,43 @@ public class InventoryController : MonoBehaviour
         {
             MoveSelector();
         }
+
+        UseCurrentItem();
     }
 
-    public void setDefaultToolSlot()
+    void UseCurrentItem()
     {
-        if (toolSlots.Length > 0 && currentToolSlot != null)
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            selector.transform.position = toolSlots[0].transform.position;
-            currentToolSlot = toolSlots[0];
+            if (currentToolSlot == null)
+                setDefaultToolSlot(toolWorldSlots[0]);
+
+            Item itemHeld = currentToolSlot != null ? currentToolSlot.item : null;
+            if (itemHeld != null)
+            {
+                switch (itemHeld.ItemType)
+                {
+                    case ItemType.Food:
+                        var food = (FoodItem)itemHeld;
+                        food.UseItem();
+                        break;
+                    case ItemType.Tool:
+                        var tool = (ToolItem)itemHeld;
+                        tool.UseItem();
+                        break;
+                    default:
+                        itemHeld.UseItem();
+                        break;
+                }
+            }
         }
+
+    }
+
+    public void setDefaultToolSlot(InventorySlot slot)
+    {
+        selector.transform.position = slot.transform.position;
+        currentToolSlot = slot;
     }
 
 
@@ -83,53 +117,53 @@ public class InventoryController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selector.transform.position = toolSlots[0].transform.position;
-            currentToolSlot = toolSlots[0];
+            selector.transform.position = toolWorldSlots[0].transform.position;
+            currentToolSlot = toolWorldSlots[0];
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            selector.transform.position = toolSlots[1].transform.position;
-            currentToolSlot = toolSlots[1];
+            selector.transform.position = toolWorldSlots[1].transform.position;
+            currentToolSlot = toolWorldSlots[1];
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            selector.transform.position = toolSlots[2].transform.position;
-            currentToolSlot = toolSlots[2];
+            selector.transform.position = toolWorldSlots[2].transform.position;
+            currentToolSlot = toolWorldSlots[2];
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            selector.transform.position = toolSlots[3].transform.position;
-            currentToolSlot = toolSlots[3];
+            selector.transform.position = toolWorldSlots[3].transform.position;
+            currentToolSlot = toolWorldSlots[3];
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            selector.transform.position = toolSlots[4].transform.position;
-            currentToolSlot = toolSlots[4];
+            selector.transform.position = toolWorldSlots[4].transform.position;
+            currentToolSlot = toolWorldSlots[4];
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            selector.transform.position = toolSlots[5].transform.position;
-            currentToolSlot = toolSlots[5];
+            selector.transform.position = toolWorldSlots[5].transform.position;
+            currentToolSlot = toolWorldSlots[5];
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
-            selector.transform.position = toolSlots[6].transform.position;
-            currentToolSlot = toolSlots[6];
+            selector.transform.position = toolWorldSlots[6].transform.position;
+            currentToolSlot = toolWorldSlots[6];
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            selector.transform.position = toolSlots[7].transform.position;
-            currentToolSlot = toolSlots[7];
+            selector.transform.position = toolWorldSlots[7].transform.position;
+            currentToolSlot = toolWorldSlots[7];
         }
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
-            selector.transform.position = toolSlots[8].transform.position;
-            currentToolSlot = toolSlots[8];
+            selector.transform.position = toolWorldSlots[8].transform.position;
+            currentToolSlot = toolWorldSlots[8];
         }
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            selector.transform.position = toolSlots[9].transform.position;
-            currentToolSlot = toolSlots[9];
+            selector.transform.position = toolWorldSlots[9].transform.position;
+            currentToolSlot = toolWorldSlots[9];
         }
     }
 
@@ -147,11 +181,11 @@ public class InventoryController : MonoBehaviour
             // Check if the Item is in Inventory First;
 
             int j = 0;
-            while (j < toolSlots.Length)
+            while (j < toolWorldSlots.Length)
             {
-                placeholderSlot = toolSlots[j].PickUpCheck(pickedUpItem);
-                if(placeholderSlot != null)
-                availableSlots.Add(placeholderSlot);
+                placeholderSlot = toolWorldSlots[j].PickUpCheck(pickedUpItem);
+                if (placeholderSlot != null)
+                    availableSlots.Add(placeholderSlot);
                 j++;
             }
 
@@ -159,7 +193,7 @@ public class InventoryController : MonoBehaviour
             while (i < inventorySlots.Length)
             {
                 placeholderSlot = inventorySlots[i].PickUpCheck(pickedUpItem);
-                if(placeholderSlot != null)
+                if (placeholderSlot != null)
                     availableSlots.Add(placeholderSlot);
                 i++;
             }
@@ -171,5 +205,34 @@ public class InventoryController : MonoBehaviour
         else
             return false;
     }
+
+
+    // This is to copy the items inside the Toolbar from the Menu
+    public void UpdateToolbarWorld()
+    {
+        int i = 0;
+        if (toolWorldSlots.Length > 0 && toolSlots.Length > 0)
+        {
+            Debug.Log("Updating the World Toolbar");
+            for (; i < toolWorldSlots.Length; i++)
+            {
+                toolWorldSlots[i].ConvertSlot(toolSlots[i]);
+            }
+        }
+    }
+
+    public void UpdateToolbarMenu()
+    {
+        int i = 0;
+        if (toolWorldSlots.Length > 0 && toolSlots.Length > 0)
+        {
+            Debug.Log("Updating the Menu Toolbar");
+            for (; i < toolSlots.Length; i++)
+            {
+                toolSlots[i].ConvertSlot(toolWorldSlots[i]);
+            }
+        }
+    }
+
 
 }

@@ -10,10 +10,16 @@ public class PlayerMenuController : MonoBehaviour
 
     [SerializeField]
     public GameObject PlayerMenuTab;
+    [SerializeField]
+    GameObject ToolbarWorld;
+    [SerializeField]
+    GameObject ToolbarSelector;
 
     void Awake()
     {
         PlayerMenuTab.SetActive(false);
+        ToolbarWorld.SetActive(true);
+        ToolbarSelector.SetActive(true);
     }
 
     void Start()
@@ -57,11 +63,17 @@ public class PlayerMenuController : MonoBehaviour
             if (PlayerMenuTab.activeSelf)
             {
                 PlayerMenuTab.SetActive(false);
+                ToolbarWorld.SetActive(true);
+                ToolbarSelector.SetActive(true);
+                InventoryController.GetInstance().UpdateToolbarWorld();
                 isMenuActive = false;
             }
             else
             {
                 PlayerMenuTab.SetActive(true);
+                ToolbarWorld.SetActive(false);
+                ToolbarSelector.SetActive(false);
+                InventoryController.GetInstance().UpdateToolbarMenu();
                 isMenuActive = true;
             }
             
